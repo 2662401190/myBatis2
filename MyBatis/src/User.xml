@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.MyBatis.dao.UserDao">
+    <!--namespace ：命名空间 :指定接口的的全类名
+       id：唯一标识列
+       resultType返回的类型  实体类
+       #{id}从转递的参数值-->
+    <select id="getUserID" resultType="sd" ><!--databaseId 的值对应着databaseIdProvider 下的property的值也就是别名 表示哪个数据库-->
+-- getUserID  接口方法名
+    select * from t_user where id = #{id}
+  </select>
+</mapper>
+

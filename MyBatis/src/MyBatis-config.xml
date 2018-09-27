@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--MyBatis 可以使用properties来引入外部文件的内容
+    resource是用来引用类路径下的文件
+    URL 用来引用磁盘或者网咯的资源-->
+    <properties resource="ss.properties"/>
+    <!--Settings  包含了很多重要的设置项目
+        Setting  用来设置每一个设置项
+        name 设置项名
+        value 设置项值-->
+    
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/><!--是否开启自动驼峰命名规则（camel case）映射，即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 的类似映射。-->
+    </settings>
+    <!--typeAliases  别名处理器： 为java类型取别名
+    type 指定某个要器别名的类的全类名 ：  默认的别名是 类名小写  alias 自己去名字-->
+
+    <typeAliases>
+        <!--<typeAlias type="com.MyBatis.Entity.User" alias="sd" /> &lt;!&ndash;实体类&ndash;&gt;-->
+
+        <!--packge:为某个包下的类 批量起别名
+        name: 指定包名
+        @Alias ： 可以使用@Alias取别名-->
+        <package name="com.MyBatis.Entity" />
+    </typeAliases>
+
+   <!--environments环境标签 可以为Mabatis配置多个环境   default指定某种环境  根据 id
+       每一个environment配置一个具体的环境信息   id ：唯一标识 自带两个便签 transactionManager 和dataSource 都必须有
+        transactionManger 事务管理器  type:有两种类型 JDBC 和MANAGED
+        dataSource数据源  type :有三种类型：unpooled ,pooled,jndi-->
+
+    <environments default="development">
+
+        <environment id="text">
+            <transactionManager type=""/>
+            <dataSource type=""></dataSource>
+        </environment>
+    
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--多数据库支持  type  标识数据库厂商标识  myBatis识别 标识 ，来执行不同的sql-->
+    <databaseIdProvider type="DB_VENDOR">
+        <!--为不同的数据库起别名-->
+        <property name="MySql" value="mysql" />
+        <!--<property name="Oracle" value="oracle"/>-->
+    </databaseIdProvider>
+
+    <!--将我们写好的sql引入-->
+    <!--mappers 将sql 映射文件配置到全局配置中
+     mapper注册一个 sql映射
+        url:引用网咯路径下的资源或者磁盘路径下的
+        resource 引用类路径的资源
+        Class :引用(引用)接口：1， 必须有sql映射文件：文件名必须和接口同名，并且和接口放在同一目录下
+                            2，没有sql映射文件，所有sql都是利用注解在写接口上面
+        -->
+    <mappers>
+        <mapper resource="User.xml"/>
+        <mapper class="com.MyBatis.dao.UserAnnotation"/><!--注解的-->
+        <!--批量注册-->
+        <package name="com.MyBatis.dao"/><!--要求要把映射文件放在此目录下-->
+    </mappers>
+</configuration>
